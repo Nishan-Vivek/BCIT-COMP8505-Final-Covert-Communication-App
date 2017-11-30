@@ -1,14 +1,23 @@
+# Crypto Config
 KEY = 'PUT SHARED KEY HERE 1234'
 IV = 'PUT IV HERE 1234'
+
+# Password for packet auth
 PASSWORD='1234'
+
+# UDP filter ports
 VICTIM_PORT=8082
+ATTACKER_PORT=8081
+
+# IP Addresses
 VICTIM_IP="192.168.0.11"
 ATTACKER_IP="192.168.0.12"
-ATTACKER_PORT=8081
+
+# File Transfer
 WATCH_FILE=""
 FILE_TRANSFER_PORT=8505
-knock_number = 0
-knock_timer =0
+
+# Port Knocking Config
 knock_1 = "192.168.40.4"
 knock_2 = "192.168.50.5"
 knock_3 = "192.168.60.6"

