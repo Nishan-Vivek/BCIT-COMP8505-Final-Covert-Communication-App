@@ -30,7 +30,7 @@ def sniff_callback(packet):
             WATCH_FILE = command
             event_handler = WatchHandler()
             observer = Observer()
-            path = os.path.split(WATCH_FILE)[0];
+            path = os.path.split(WATCH_FILE)[0]
             observer.schedule(event_handler, path, recursive=False)
             observer.start()
         else:

@@ -2,7 +2,7 @@ from scapy.all import *
 from scapy.layers.inet import IP, UDP
 from crypto import *
 from config import *
-import time;
+import time
 
 knock_number = 0
 knock_timer =0
