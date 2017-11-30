@@ -37,8 +37,8 @@ def main():
         if command == 'watchfile':
             watch_path = raw_input("Path to watch:")
             command = PASSWORD + "1" + watch_path
-        if command == 'getfile':
-            file_path = raw_input("File to get")
+        elif command == 'getfile':
+            file_path = raw_input("File to get:")git 
             command = PASSWORD + "2" + file_path
         else:
             command = PASSWORD +"0" + command
