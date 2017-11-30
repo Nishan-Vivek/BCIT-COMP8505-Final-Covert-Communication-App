@@ -24,16 +24,21 @@ def listen_for_file():
     print (host)
     s.bind((host, FILE_TRANSFER_PORT))
     s.listen(5)
+
+
+
+    conn, addr = s.accept()
+    print (addr)
+    data = decrypt(conn.recv(4096))
+    print data
+    f = open(data, 'wb')
     while 1:
-        print ("in while loop")
-        conn, addr = s.accept()
-        print (addr)
-        data = conn.recv(4096)
+        data = decrypt(conn.recv(4096))
+        if not data:
+            break
         print data
-        while 1:
-            data = conn.recv(4096)
-            if not data:
-                break
-            print data
-        # s.close()
+        f.write(data)
+    conn.close()
+    f.close()
+    s.close()
 
