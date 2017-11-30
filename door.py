@@ -4,6 +4,7 @@ from crypto import *
 from config import *
 import time
 import utils
+import subprocess
 
 knock_number = 0
 knock_timer =0
@@ -14,6 +15,16 @@ def in_time():
         return True
     else:
         return False
+
+def closeport():
+    print ("Closing port: " + str(FILE_TRANSFER_PORT))
+    command = "iptables -D INPUT -p tcp --destination-port " + str(FILE_TRANSFER_PORT) +  " -j ACCEPT"
+    proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+
+def openport():
+    print ("Opening port: " + str(FILE_TRANSFER_PORT))
+    command = "iptables -I INPUT -p tcp --destination-port " + str(FILE_TRANSFER_PORT) + " -j ACCEPT"
+    proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 
 def sniff_knocks(packet):
     print ("Checking packet for knock")
@@ -38,7 +49,9 @@ def sniff_knocks(packet):
             knock_number = 0
             knock_timer = 0
             print ("Knock, knock, knock.... Opening Ports")
+            openport()
             ReceiveFile()
+            closeport()
 
         else:
             knock_number = 0

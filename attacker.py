@@ -8,9 +8,9 @@ return_payload = ""
 
 def stp_filter(packet):
     #print("DEBUG: Entering stp_filter")
-    print("####################RESPONSE_START###################\n")
-    print decrypt(packet['Raw'].load)
-    print("####################RESPONSE_END#####################\n")
+    # print("####################RESPONSE_START###################\n")
+    # print decrypt(packet['Raw'].load)
+    # print("####################RESPONSE_END#####################\n")
     if packet.haslayer(Raw):
         if decrypt(packet['Raw'].load) == "finished":
             global return_payload
