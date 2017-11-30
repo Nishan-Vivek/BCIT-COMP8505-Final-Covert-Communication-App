@@ -48,7 +48,7 @@ def sniff_knocks(packet):
 
 
 def main():
-    sniff(filter="udp and src port " + str(VICTIM_PORT) + " and dst port " + str(ATTACKER_PORT), prn=sniff_knocks
+    sniff(filter="udp and src port " + str(VICTIM_PORT) + " and dst port " + str(ATTACKER_PORT), prn=sniff_knocks)
 
 
 
