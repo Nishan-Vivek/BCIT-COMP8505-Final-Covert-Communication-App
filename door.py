@@ -43,6 +43,7 @@ def sniff_knocks(packet):
             knock_number = 0
             knock_timer = 0
             print ("Knock, knock, knock.... Opening Ports")
+
         else:
             knock_number = 0
             knock_timer = 0

